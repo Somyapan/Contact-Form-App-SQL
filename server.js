@@ -5,12 +5,13 @@ const app = express();
 const PORT = 4000;
 
 // MySQL connection
-const db = mysql.createConnection({
+const connection = mysql.createConnection({
   host: 'localhost',
   user: 'nodeuser',
-  password: '123',
-  database: 'demo_db'
+  password: '123',               // 👈 Use your correct password here
+  database: 'contact_form_db'    // 👈 Replace with your actual DB name
 });
+
 
 db.connect(err => {
   if (err) throw err;
