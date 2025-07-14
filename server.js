@@ -5,18 +5,23 @@ const app = express();
 const PORT = 4000;
 
 // MySQL connection
+const mysql = require('mysql2');
+
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'nodeuser',
-  password: '123',               // 👈 Use your correct password here
-  database: 'contact_form_db'    // 👈 Replace with your actual DB name
+  password: '123',
+  database: 'contact_form_db'  // Replace this with your actual DB name
 });
 
-
-db.connect(err => {
-  if (err) throw err;
-  console.log('MySQL Connected!');
+connection.connect((err) => {
+  if (err) {
+    console.error('MySQL Connection Error:', err);
+    return;
+  }
+  console.log('Connected to MySQL!');
 });
+
 
 // Middleware
 app.use(express.json());
