@@ -7,11 +7,11 @@ const PORT = 4000;
 // MySQL connection
 const mysql = require('mysql2');
 
-const connection = mysql.createConnection({
+const db = mysql.createConnection({
   host: 'localhost',
   user: 'nodeuser',
   password: '123',
-  database: 'contact_form_db'  // Replace this with your actual DB name
+  database: 'demo_db'
 });
 
 connection.connect((err) => {
