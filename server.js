@@ -4,9 +4,7 @@ const path = require('path');
 const app = express();
 const PORT = 4000;
 
-// MySQL connection
-const mysql = require('mysql2');
-
+// ✅ MySQL connection
 const db = mysql.createConnection({
   host: 'localhost',
   user: 'nodeuser',
@@ -14,39 +12,44 @@ const db = mysql.createConnection({
   database: 'demo_db'
 });
 
-connection.connect((err) => {
+db.connect((err) => {
   if (err) {
-    console.error('MySQL Connection Error:', err);
+    console.error('❌ MySQL Connection Error:', err);
     return;
   }
-  console.log('Connected to MySQL!');
+  console.log('✅ Connected to MySQL!');
 });
 
-
-// Middleware
+// ✅ Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public'))); // serve static files
 
-// POST form
+// ✅ POST route to save contact
 app.post('/submit', (req, res) => {
   const { name, email } = req.body;
   const sql = 'INSERT INTO contacts (name, email) VALUES (?, ?)';
   db.query(sql, [name, email], (err, result) => {
-    if (err) throw err;
-    res.send('Contact saved!');
+    if (err) {
+      console.error('Insert Error:', err);
+      return res.status(500).send('Database Error');
+    }
+    res.send('✅ Contact saved!');
   });
 });
 
-// GET data
+// ✅ GET route to fetch contacts
 app.get('/contacts', (req, res) => {
   db.query('SELECT * FROM contacts', (err, result) => {
-    if (err) throw err;
+    if (err) {
+      console.error('Select Error:', err);
+      return res.status(500).send('Database Error');
+    }
     res.json(result);
   });
 });
 
-// Start server
+// ✅ Start the server
 app.listen(PORT, () => {
-  console.log(`Server running on http://13.204.45.180:${PORT}`);
+  console.log(`🚀 Server running at: http://localhost:${PORT}`);
 });
